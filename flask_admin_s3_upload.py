@@ -23,7 +23,9 @@ from flask.ext.admin.form.upload import FileUploadField, ImageUploadInput, \
     thumbgen_filename
 from flask.ext.admin._compat import urljoin
 
-from url_for_s3 import url_for_s3
+
+def url_for_s3(bucket_name, filename):
+    return '//{bucket_name}.s3.amazonaws.com/{filename}'.format(bucket_name=bucket_name, filename=filename)
 
 
 class S3FileUploadField(FileUploadField):
@@ -184,8 +186,7 @@ class S3ImageUploadInput(ImageUploadInput):
         if field.url_relative_path:
             filename = urljoin(field.url_relative_path, filename)
 
-        return url_for_s3(field.endpoint, bucket_name=field.bucket_name,
-                          filename=filename)
+        return url_for_s3(bucket_name=field.bucket_name, filename=filename)
 
 
 class S3ImageUploadField(S3FileUploadField):
