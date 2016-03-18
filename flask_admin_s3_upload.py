@@ -25,6 +25,8 @@ from flask.ext.admin._compat import urljoin
 
 
 def url_for_s3(bucket_name, filename):
+    if filename is None:
+        return None
     return '//{bucket_name}.s3.amazonaws.com/{filename}'.format(bucket_name=bucket_name, filename=filename)
 
 
